@@ -4,31 +4,31 @@ PERMS_OWNER=root
 PERMS_GROUP=admin
 CHOWN=$PERMS_OWNER:$PERMS_GROUP
 
-# set up lokinet data dir
-[ -e /var/lib/lokinet/ ] || mkdir /var/lib/lokinet 
-chown $CHOWN /var/lib/lokinet
-chmod g+w /var/lib/lokinet
+# set up worktipsnet data dir
+[ -e /var/lib/worktipsnet/ ] || mkdir /var/lib/worktipsnet 
+chown $CHOWN /var/lib/worktipsnet
+chmod g+w /var/lib/worktipsnet
 
 # mv files copied into $INSTALL_PREFIX/extra/ to their proper locations
-mv /opt/lokinet/extra/lokinet_macos_daemon_script.sh /var/lib/lokinet
-chown $CHOWN /var/lib/lokinet/lokinet_macos_daemon_script.sh
-chmod 770 /var/lib/lokinet/lokinet_macos_daemon_script.sh
+mv /opt/worktipsnet/extra/worktipsnet_macos_daemon_script.sh /var/lib/worktipsnet
+chown $CHOWN /var/lib/worktipsnet/worktipsnet_macos_daemon_script.sh
+chmod 770 /var/lib/worktipsnet/worktipsnet_macos_daemon_script.sh
 
-mv /opt/lokinet/extra/network.loki.lokinet.daemon.plist /Library/LaunchDaemons/
-chown $CHOWN /Library/LaunchDaemons/network.loki.lokinet.daemon.plist
-chmod 640 /Library/LaunchDaemons/network.loki.lokinet.daemon.plist
+mv /opt/worktipsnet/extra/network.worktips.worktipsnet.daemon.plist /Library/LaunchDaemons/
+chown $CHOWN /Library/LaunchDaemons/network.worktips.worktipsnet.daemon.plist
+chmod 640 /Library/LaunchDaemons/network.worktips.worktipsnet.daemon.plist
 
 # clean up by removing 'extra/' (so long as it's empty)
-rmdir /opt/lokinet/extra/
+rmdir /opt/worktipsnet/extra/
 
 # bootstrap
-/opt/lokinet/bin/lokinet-bootstrap mainnet /var/lib/lokinet/bootstrap.signed
-chown $CHOWN /var/lib/lokinet/bootstrap.signed
+/opt/worktipsnet/bin/worktipsnet-bootstrap mainnet /var/lib/worktipsnet/bootstrap.signed
+chown $CHOWN /var/lib/worktipsnet/bootstrap.signed
 
 # generate configs
-/opt/lokinet/bin/lokinet -g /var/lib/lokinet/lokinet.ini
-chown $CHOWN /var/lib/lokinet/lokinet.ini
+/opt/worktipsnet/bin/worktipsnet -g /var/lib/worktipsnet/worktipsnet.ini
+chown $CHOWN /var/lib/worktipsnet/worktipsnet.ini
 
 # register with launchd and start
-launchctl load /Library/LaunchDaemons/network.loki.lokinet.daemon.plist
-launchctl start network.loki.lokinet.daemon
+launchctl load /Library/LaunchDaemons/network.worktips.worktipsnet.daemon.plist
+launchctl start network.worktips.worktipsnet.daemon

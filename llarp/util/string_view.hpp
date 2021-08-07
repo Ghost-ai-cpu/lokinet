@@ -1,10 +1,10 @@
 #ifndef LLARP_STRING_VIEW_HPP
 #define LLARP_STRING_VIEW_HPP
 
-// Copied from loki-mq (with namespaces modified); when we fully import loki-mq
+// Copied from worktips-mq (with namespaces modified); when we fully import worktips-mq
 // we can just use it directly.
 
-// To keep this identical to loki-mq's copy (e.g. to be able to diff it):
+// To keep this identical to worktips-mq's copy (e.g. to be able to diff it):
 //
 // clang-format off
 

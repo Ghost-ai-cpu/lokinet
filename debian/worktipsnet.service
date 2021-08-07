@@ -1,0 +1,14 @@
+[Unit]
+Description=WorktipsNET: Anonymous Network layer thingydoo.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=debian-worktipsnet
+SyslogIdentifier=worktipsnet
+ExecStartPre=/bin/bash -c "/usr/bin/worktipsnet-bootstrap && /usr/bin/worktipsnet -g"
+ExecStart=/usr/bin/worktipsnet
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

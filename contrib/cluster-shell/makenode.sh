@@ -1,7 +1,7 @@
-mkdir loki$1
-cd loki$1
-ln -s ../lokinet lokinet$1
-cp ../lokinet.ini .
-nano lokinet.ini
+mkdir worktips$1
+cd worktips$1
+ln -s ../worktipsnet worktipsnet$1
+cp ../worktipsnet.ini .
+nano worktipsnet.ini
 cd ..
-echo "killall -9 lokinet$1" >> ../stop.sh
+echo "killall -9 worktipsnet$1" >> ../stop.sh

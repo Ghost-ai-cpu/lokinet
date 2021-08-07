@@ -1,8 +1,8 @@
     
     set(ANDROID_SRC 
-        lokinet_config.cpp
-        lokinet_daemon.cpp
-        lokinet_vpn.cpp
+        worktipsnet_config.cpp
+        worktipsnet_daemon.cpp
+        worktipsnet_vpn.cpp
     )
     add_library(${ANDROID_LIB} SHARED ${ANDROID_SRC})
     set_property(TARGET ${ANDROID_LIB} PROPERTY CXX_STANDARD 14)

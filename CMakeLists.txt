@@ -5,17 +5,17 @@ if(CCACHE_PROGRAM)
   set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
 endif()
 
-set(PROJECT_NAME lokinet)
+set(PROJECT_NAME worktipsnet)
 project(${PROJECT_NAME}
     VERSION 0.7.1
-    DESCRIPTION "lokinet - IP packet onion router"
+    DESCRIPTION "worktipsnet - IP packet onion router"
     LANGUAGES C CXX)
 
 set(RELEASE_MOTTO "I'll remember that..." CACHE STRING "Release motto")
 
-add_definitions(-DLLARP_VERSION_MAJOR=${lokinet_VERSION_MAJOR})
-add_definitions(-DLLARP_VERSION_MINOR=${lokinet_VERSION_MINOR})
-add_definitions(-DLLARP_VERSION_PATCH=${lokinet_VERSION_PATCH})
+add_definitions(-DLLARP_VERSION_MAJOR=${worktipsnet_VERSION_MAJOR})
+add_definitions(-DLLARP_VERSION_MINOR=${worktipsnet_VERSION_MINOR})
+add_definitions(-DLLARP_VERSION_PATCH=${worktipsnet_VERSION_PATCH})
 
 
 # Core options
@@ -119,7 +119,7 @@ endif(XSAN)
 
 if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
   set(OPTIMIZE_FLAGS "")
-  add_definitions(-DLOKINET_DEBUG=1)
+  add_definitions(-DWORKTIPSNET_DEBUG=1)
   set(CRYPTO_FLAGS "")
   add_compile_options( ${DEBUG_FLAGS} )
   link_libraries( ${DEBUG_FLAGS} )

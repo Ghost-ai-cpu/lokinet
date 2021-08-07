@@ -1,3 +1,3 @@
 #!/bin/sh
-rm -fr loki*/tmp-nodes
-rm  loki*/profile.dat
+rm -fr worktips*/tmp-nodes
+rm  worktips*/profile.dat

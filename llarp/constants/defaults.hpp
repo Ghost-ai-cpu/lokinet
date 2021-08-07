@@ -12,18 +12,18 @@
 #endif
 
 #ifdef DEBIAN
-#ifndef DEFAULT_LOKINET_USER
-#define DEFAULT_LOKINET_USER "debian-lokinet"
+#ifndef DEFAULT_WORKTIPSNET_USER
+#define DEFAULT_WORKTIPSNET_USER "debian-worktipsnet"
 #endif
-#ifndef DEFAULT_LOKINET_GROUP
-#define DEFAULT_LOKINET_GROUP "debian-lokinet"
+#ifndef DEFAULT_WORKTIPSNET_GROUP
+#define DEFAULT_WORKTIPSNET_GROUP "debian-worktipsnet"
 #endif
 #else
-#ifndef DEFAULT_LOKINET_USER
-#define DEFAULT_LOKINET_USER "lokinet"
+#ifndef DEFAULT_WORKTIPSNET_USER
+#define DEFAULT_WORKTIPSNET_USER "worktipsnet"
 #endif
-#ifndef DEFAULT_LOKINET_GROUP
-#define DEFAULT_LOKINET_GROUP "lokinet"
+#ifndef DEFAULT_WORKTIPSNET_GROUP
+#define DEFAULT_WORKTIPSNET_GROUP "worktipsnet"
 #endif
 #endif
 

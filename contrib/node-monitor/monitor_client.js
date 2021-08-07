@@ -1,11 +1,11 @@
-const lokinet = require('./lokinet') // currently using the 0.5 api
+const worktipsnet = require('./worktipsnet') // currently using the 0.5 api
 const fs = require('fs')
 const ping = require("net-ping")
 // horrible library that shells out to use ping...
 //const ping    = require('ping')
 
 // score successful actions
-// while we monitor snode and loki addresses
+// while we monitor snode and worktips addresses
 
 var session = ping.createSession()
 
@@ -20,8 +20,8 @@ if (fs.existsSync('profiles.dat')) {
 //
 
 // FIXME: take in a binary_path as an option...
-var lokinet_config = {
-  binary_path: '../../lokinet',
+var worktipsnet_config = {
+  binary_path: '../../worktipsnet',
   // clients will default to i2p.rocks
   //  bootstrap_url   : 'http://206.81.100.174/n-st-1.signed',
   //  rpc_ip          : '127.0.0.1',
@@ -35,7 +35,7 @@ var lokinet_config = {
 score_time = null
 score_total = 0
 
-var lokinet_version = 'unknown'
+var worktipsnet_version = 'unknown'
 
 var known_snodes = []
 var snodes_stats = {}
@@ -46,7 +46,7 @@ function addSnode(snode) {
     known_snodes.push(snode)
 
     function lookupSnode(snode) {
-      lokinet.lookup(snode, function (records) {
+      worktipsnet.lookup(snode, function (records) {
         console.log(snode, 'mapped to', records)
         // if no response or not found, retry
         if (records === undefined || records === null) {
@@ -115,15 +115,15 @@ setInterval(function () {
   }
 }, 30 * 1000)
 
-lokinet.onMessage = function (data) {
+worktipsnet.onMessage = function (data) {
   console.log(`monitor: ${data}`)
   var lines = data.split(/\n/)
   for (var i in lines) {
     var tline = lines[i].trim()
-    // 	lokinet-0.4.0-59e6a4bc (dev build)
-    if (tline.match('lokinet-0.')) {
-      var parts = tline.split('lokinet-0.')
-      lokinet_version = parts[1]
+    // 	worktipsnet-0.4.0-59e6a4bc (dev build)
+    if (tline.match('worktipsnet-0.')) {
+      var parts = tline.split('worktipsnet-0.')
+      worktipsnet_version = parts[1]
       console.log('VERSION', parts[1])
     }
     if (tline.match('Using config file:')) {
@@ -140,7 +140,7 @@ lokinet.onMessage = function (data) {
     if (tline.match('Set Up networking for')) {
       // get interface info
       var parts = tline.split('Set Up networking for ')
-      // default:9j4uido1ai7ucirbncbqii1395e8ccd6cjomo9cccp3ztx1ukwio.loki
+      // default:9j4uido1ai7ucirbncbqii1395e8ccd6cjomo9cccp3ztx1ukwio.worktips
       console.log('INTERFACE', parts[1])
     }
     //
@@ -180,7 +180,7 @@ lokinet.onMessage = function (data) {
     }
     //
     if (tline.match(' is built, took ')) {
-      // path TX=8826efd28bede66c59782af9894eed08 RX=a994770a8c6d61700b8ca65e4a3adea3 on OBContext:default:3y3ch3m6c8xgmutxwe8fger6n963hn3mkn6tk14j67w1zdxj1n1y.loki-icxqqcpd3sfkjbqifn53h7rmusqa1fyxwqyfrrcgkd37xcikwa7y.loki is built, took 2321 ms
+      // path TX=8826efd28bede66c59782af9894eed08 RX=a994770a8c6d61700b8ca65e4a3adea3 on OBContext:default:3y3ch3m6c8xgmutxwe8fger6n963hn3mkn6tk14j67w1zdxj1n1y.worktips-icxqqcpd3sfkjbqifn53h7rmusqa1fyxwqyfrrcgkd37xcikwa7y.worktips is built, took 2321 ms
       var parts = tline.split('path TX=')
       if (parts.length > 1) {
         var two = parts[1].split(' RX=')
@@ -201,7 +201,7 @@ lokinet.onMessage = function (data) {
       score_total++
     }
     // happen right after the built, took
-    //TX=53e833fcbad1395647f198201d4931e5 RX=b4768bc4b91b86b51b513319f443f538 on default:dnhi78pwrn6cd5yz83i83816nqudwym57s5x4bp3j4g5kbeigw5y.loki built latency=291
+    //TX=53e833fcbad1395647f198201d4931e5 RX=b4768bc4b91b86b51b513319f443f538 on default:dnhi78pwrn6cd5yz83i83816nqudwym57s5x4bp3j4g5kbeigw5y.worktips built latency=291
     if (tline.match(' is built latency ')) {
       // path latency info
     }
@@ -244,13 +244,13 @@ lokinet.onMessage = function (data) {
       }
       score_total++
     }
-    //service/endpoint.cpp:652	default:kzow69uftho8ukm8g4kf88y5zka84azfrmfx5okkmrg7ucdz5d1o.loki IntroSet publish confirmed
+    //service/endpoint.cpp:652	default:kzow69uftho8ukm8g4kf88y5zka84azfrmfx5okkmrg7ucdz5d1o.worktips IntroSet publish confirmed
     if (tline.match('IntroSet publish confirmed')) {
       score_total++
     }
   }
 }
-lokinet.onError = function (data) {
+worktipsnet.onError = function (data) {
   console.log(`monitorerr: ${data}`)
   // start on 2019-04-30T15:40:55.540314745-07:00 X Records
   // buffer until
@@ -291,23 +291,23 @@ lokinet.onError = function (data) {
 //
 
 function checkIP(cb) {
-  lokinet.getLokiNetIP(function (ip) {
+  worktipsnet.getWorktipsNetIP(function (ip) {
     if (ip === undefined) {
       checkIP(cb)
       return
     }
-    //console.log('lokinet interface ip', ip)
+    //console.log('worktipsnet interface ip', ip)
     cb(ip)
   })
 }
 
-lokinet.startClient(lokinet_config, function () {
-  // lokinet isn't necessarily running at this point
+worktipsnet.startClient(worktipsnet_config, function () {
+  // worktipsnet isn't necessarily running at this point
   console.log('Starting monitor')
   score_time = Date.now()
   checkIP(function (ip) {
-    console.log('lokinet interface ip', ip)
-    lokinet.findLokiNetDNS(function (servers) {
+    console.log('worktipsnet interface ip', ip)
+    worktipsnet.findWorktipsNetDNS(function (servers) {
       console.log('monitor detected DNS Servers', servers)
     })
     setInterval(function () {
@@ -316,7 +316,7 @@ lokinet.startClient(lokinet_config, function () {
     // maybe run until a specific time and quit for comparison
     // 1200s (two 10min sessions)
     setTimeout(function () {
-      console.log(lokinet_config.binary_path, 'version', lokinet_version, 'final score', score_total)
+      console.log(worktipsnet_config.binary_path, 'version', worktipsnet_version, 'final score', score_total)
       process.exit()
     }, 3 * 600 * 1000) // 3x 10m sessions worth
   })

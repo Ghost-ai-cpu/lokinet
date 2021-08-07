@@ -36,10 +36,10 @@ namespace llarp
     m_encKeyPath       = config.router.encryptionKeyfile();
     m_transportKeyPath = config.router.transportKeyfile();
 
-    m_usingLokid       = config.lokid.whitelistRouters;
-    m_lokidRPCAddr     = config.lokid.lokidRPCAddr;
-    m_lokidRPCUser     = config.lokid.lokidRPCUser;
-    m_lokidRPCPassword = config.lokid.lokidRPCPassword;
+    m_usingWorktipsd       = config.worktipsd.whitelistRouters;
+    m_worktipsdRPCAddr     = config.worktipsd.worktipsdRPCAddr;
+    m_worktipsdRPCUser     = config.worktipsd.worktipsdRPCUser;
+    m_worktipsdRPCPassword = config.worktipsd.worktipsdRPCPassword;
 
     RouterContact rc;
     bool exists = rc.Read(m_rcPath.c_str());
@@ -78,7 +78,7 @@ namespace llarp
       }
     }
 
-    if(not m_usingLokid)
+    if(not m_usingWorktipsd)
     {
       // load identity key or create if needed
       auto identityKeygen = [](llarp::SecretKey& key) {
@@ -90,7 +90,7 @@ namespace llarp
     }
     else
     {
-      if(not loadIdentityFromLokid())
+      if(not loadIdentityFromWorktipsd())
         return false;
     }
 
@@ -209,7 +209,7 @@ namespace llarp
   }
 
   bool
-  KeyManager::loadIdentityFromLokid()
+  KeyManager::loadIdentityFromWorktipsd()
   {
 #if defined(_WIN32) || defined(_WIN64)
     LogError("service node mode not supported on windows");
@@ -220,11 +220,11 @@ namespace llarp
     {
       bool ret = false;
       std::stringstream ss;
-      ss << "http://" << m_lokidRPCAddr << "/json_rpc";
+      ss << "http://" << m_worktipsdRPCAddr << "/json_rpc";
       const auto url = ss.str();
       curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
       curl_easy_setopt(curl, CURLOPT_HTTPAUTH, (long)CURLAUTH_ANY);
-      const auto auth = m_lokidRPCUser + ":" + m_lokidRPCPassword;
+      const auto auth = m_worktipsdRPCUser + ":" + m_worktipsdRPCPassword;
       curl_easy_setopt(curl, CURLOPT_USERPWD, auth.c_str());
       curl_slist* list = nullptr;
       list = curl_slist_append(list, "Content-Type: application/json");
@@ -242,7 +242,7 @@ namespace llarp
       curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &curl_RecvIdentKey);
 
       resp.clear();
-      LogInfo("Getting Identity Keys from lokid...");
+      LogInfo("Getting Identity Keys from worktipsd...");
       if(curl_easy_perform(curl) == CURLE_OK)
       {
         try
@@ -262,11 +262,11 @@ namespace llarp
           {
             if(k.empty())
             {
-              LogError("lokid gave no identity key");
+              LogError("worktipsd gave no identity key");
             }
             else
             {
-              LogError("lokid gave invalid identity key");
+              LogError("worktipsd gave invalid identity key");
             }
             return false;
           }
@@ -278,12 +278,12 @@ namespace llarp
           }
           else
           {
-            LogError("lokid gave bogus identity key");
+            LogError("worktipsd gave bogus identity key");
           }
         }
         catch(nlohmann::json::exception& ex)
         {
-          LogError("Bad response from lokid: ", ex.what());
+          LogError("Bad response from worktipsd: ", ex.what());
         }
       }
       else
@@ -292,7 +292,7 @@ namespace llarp
       }
       if(ret)
       {
-        LogInfo("Got Identity Keys from lokid: ",
+        LogInfo("Got Identity Keys from worktipsd: ",
                 RouterID(seckey_topublic(identityKey)));
       }
       curl_easy_cleanup(curl);

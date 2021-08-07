@@ -18,7 +18,7 @@ stages:
 #    - make STATIC_LINK=ON DOWNLOAD_SODIUM=ON
 #  artifacts:
 #    paths:
-#      - "lokinet"
+#      - "worktipsnet"
 
 # we'll just try our travis set up for now
 build:linux_release:
@@ -34,18 +34,18 @@ build:linux_release:
   script:
     - make static DOWNLOAD_SODIUM=ON
     # alternatively: git describe --tag
-    - LOKINET_VERSION=$(./lokinet-static --version|sed s/lokinet-//)
-    - echo lokinet-linux-x64-v$LOKINET_VERSION
-    - mkdir lokinet-linux-x64-v$LOKINET_VERSION
-    - cp lokinet-bootstrap lokinet-linux-x64-v$LOKINET_VERSION
-    - cp build/daemon/lokinet lokinet-linux-x64-v$LOKINET_VERSION
-    - cp build/daemon/lokinetctl lokinet-linux-x64-v$LOKINET_VERSION
-    - cp docs/linux-setcap-readme.txt lokinet-linux-x64-v$LOKINET_VERSION
-    - tar cJf lokinet-linux-x64-v$LOKINET_VERSION.tar.xz lokinet-linux-x64-v$LOKINET_VERSION
-    - echo "lokinet-linux-x64-v$LOKINET_VERSION.tar.xz should be ready"
+    - WORKTIPSNET_VERSION=$(./worktipsnet-static --version|sed s/worktipsnet-//)
+    - echo worktipsnet-linux-x64-v$WORKTIPSNET_VERSION
+    - mkdir worktipsnet-linux-x64-v$WORKTIPSNET_VERSION
+    - cp worktipsnet-bootstrap worktipsnet-linux-x64-v$WORKTIPSNET_VERSION
+    - cp build/daemon/worktipsnet worktipsnet-linux-x64-v$WORKTIPSNET_VERSION
+    - cp build/daemon/worktipsnetctl worktipsnet-linux-x64-v$WORKTIPSNET_VERSION
+    - cp docs/linux-setcap-readme.txt worktipsnet-linux-x64-v$WORKTIPSNET_VERSION
+    - tar cJf worktipsnet-linux-x64-v$WORKTIPSNET_VERSION.tar.xz worktipsnet-linux-x64-v$WORKTIPSNET_VERSION
+    - echo "worktipsnet-linux-x64-v$WORKTIPSNET_VERSION.tar.xz should be ready"
   artifacts:
     paths:
-      - lokinet-linux-x64-v*.tar.xz
+      - worktipsnet-linux-x64-v*.tar.xz
 
 build:linux_debug:
   image: ubuntu:xenial
@@ -61,8 +61,8 @@ build:linux_debug:
     - DOWNLOAD_SODIUM=ON IS_NOTIFICATION=1 STATIC_LINK=OFF make
   artifacts:
     paths:
-      - build/daemon/lokinet
-      - build/daemon/lokinetctl
+      - build/daemon/worktipsnet
+      - build/daemon/worktipsnetctl
 
 
 build:win32:
@@ -76,7 +76,7 @@ build:win32:
     - DOWNLOAD_SODIUM=ON IS_NOTIFICATION=1 STATIC_LINK=ON WINDOWS_ARCH=64 make windows
   artifacts:
     paths:
-      - build/lokinet-*.exe
+      - build/worktipsnet-*.exe
 
 build:macos:
   tags:
@@ -87,7 +87,7 @@ build:macos:
   artifacts:
     paths:
       - build/*.pkg
-      - build/daemon/lokinet
+      - build/daemon/worktipsnet
 
 
 # needs libuv and libcurl
@@ -99,9 +99,9 @@ build:macos:
 #    - gmake DOWNLOAD_SODIUM=ON
 #  artifacts:
 #    paths:
-#      - "lokinet"
+#      - "worktipsnet"
 
-# need windows runner on lokiproject
+# need windows runner on worktipsproject
 #build:windows:
 #  tags:
 #    - windows
@@ -113,4 +113,4 @@ build:macos:
 #    - cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=../contrib/cross/mingw[32].cmake  -DDOWNLOAD_SODIUM=ON
 #  artifacts:
 #    paths:
-#      - "lokinet.exe"
+#      - "worktipsnet.exe"

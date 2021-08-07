@@ -8,13 +8,13 @@ WORKDIR /src/
 COPY . /src/
 
 RUN make NINJA=ninja STATIC_LINK=ON BUILD_TYPE=Release DOWNLOAD_SODIUM=ON
-RUN ./lokinet-bootstrap ${bootstrap}
+RUN ./worktipsnet-bootstrap ${bootstrap}
 
 FROM alpine:latest
 
-COPY lokinet-docker.ini /root/.lokinet/lokinet.ini
-COPY --from=builder /src/build/daemon/lokinet .
-COPY --from=builder /root/.lokinet/bootstrap.signed /root/.lokinet/
+COPY worktipsnet-docker.ini /root/.worktipsnet/worktipsnet.ini
+COPY --from=builder /src/build/daemon/worktipsnet .
+COPY --from=builder /root/.worktipsnet/bootstrap.signed /root/.worktipsnet/
 
-CMD ["./lokinet"]
+CMD ["./worktipsnet"]
 EXPOSE 1090/udp 1190/tcp

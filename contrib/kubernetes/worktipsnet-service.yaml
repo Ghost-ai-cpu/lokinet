@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: worktipsnet
+  labels:
+    app: worktipsnet
+spec:
+  selector:
+    app: worktipsnet
+  ports:
+  - protocol: UDP
+    port: 1090
+    targetPort: 1090

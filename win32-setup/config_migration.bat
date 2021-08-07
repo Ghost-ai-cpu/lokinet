@@ -1,4 +1,4 @@
 @echo off
-copy lokinet.ini lokinet.old.ini
-del lokinet.ini
-%PROGRAMFILES%\Loki Project\Lokinet\lokinet -g
+copy worktipsnet.ini worktipsnet.old.ini
+del worktipsnet.ini
+%PROGRAMFILES%\Worktips Project\Worktipsnet\worktipsnet -g

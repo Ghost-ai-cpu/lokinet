@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: lokinet
-Source: https://github.com/loki-project/loki-network
+Upstream-Name: worktipsnet
+Source: https://github.com/worktips-project/worktips-network
 
 Files: *
 Copyright: 2018 Jeff Becker
